@@ -144,34 +144,34 @@ class PlaylistStore(ctx: Context) {
 data class Skin(
     val bodyTop: Int, val bodyBottom: Int,
     val wheelTop: Int, val wheelBottom: Int, val wheelEdge: Int,
-    val label: Int, val pressed: Int,
+    val label: Int,
     val centerTop: Int, val centerBottom: Int, val centerEdge: Int,
-    val bezel: Int, val lightBars: Boolean,
+    val lightBars: Boolean,
 ) {
     companion object {
         val SILVER = Skin(
             0xFFEEEEF0.toInt(), 0xFFC3C4C8.toInt(),
             0xFFFDFDFD.toInt(), 0xFFE6E6E8.toInt(), 0xFFB4B5BA.toInt(),
-            0xFFA0A1A7.toInt(), 0x22000000,
+            0xFFA0A1A7.toInt(),
             0xFFE6E7EA.toInt(), 0xFFC6C7CB.toInt(), 0xFFA9AAAF.toInt(),
-            0xFF1E1E20.toInt(), true,
+            true,
         )
         /** Pure black for AMOLED: only the thin wheel outlines and labels light up. */
         val BLACK = Skin(
             0xFF000000.toInt(), 0xFF000000.toInt(),
             0xFF000000.toInt(), 0xFF000000.toInt(), 0xFF2E2E33.toInt(),
-            0xFFA6A7AD.toInt(), 0x26FFFFFF,
+            0xFFA6A7AD.toInt(),
             0xFF000000.toInt(), 0xFF000000.toInt(), 0xFF2E2E33.toInt(),
-            0xFF000000.toInt(), false,
+            false,
         )
 
         /** iPod classic gunmetal: anodised grey face, near-black wheel, face-coloured center button. */
         val SPACE_GRAY = Skin(
             0xFF606166.toInt(), 0xFF3A3B3F.toInt(),
             0xFF2B2B2E.toInt(), 0xFF1A1A1C.toInt(), 0xFF111113.toInt(),
-            0xFFB2B3B8.toInt(), 0x22FFFFFF,
+            0xFFB2B3B8.toInt(),
             0xFF5C5D62.toInt(), 0xFF3F4044.toInt(), 0xFF1E1E21.toInt(),
-            0xFF000000.toInt(), false,
+            false,
         )
 
         // Stored values: 0 Silver, 1 Black, 2 Space Gray (kept stable for existing settings).

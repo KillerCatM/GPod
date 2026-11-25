@@ -39,6 +39,10 @@ class CoverFlowPage(private val host: MainActivity) : Page("Cover Flow") {
     private val dim = Paint()
     private val panel = Paint(Paint.ANTI_ALIAS_FLAG)
     private val hl = Paint(Paint.ANTI_ALIAS_FLAG)
+    // Gradients are rebuilt only when their size changes, not every frame.
+    private var fadeKey = Float.NaN
+    private var panelKey = Float.NaN
+    private var hlKey = Float.NaN
     private val backRect = RectF()
 
     private val flipped get() = flipTarget == 1f
@@ -237,7 +241,10 @@ class CoverFlowPage(private val host: MainActivity) : Page("Cover Flow") {
         c.scale(1f, -1f)
         paintArt(c, albums[i])
         c.restore()
-        fade.shader = LinearGradient(0f, s, 0f, s * 1.4f, 0xA0000000.toInt(), Color.BLACK, Shader.TileMode.CLAMP)
+        if (fadeKey != s) {
+            fadeKey = s
+            fade.shader = LinearGradient(0f, s, 0f, s * 1.4f, 0xA0000000.toInt(), Color.BLACK, Shader.TileMode.CLAMP)
+        }
         c.drawRect(0f, s - 0.5f, s, s * 1.4f + 1f, fade)
         val d = min(1f, min(a, 1f) * 0.35f + extraDim)
         if (d > 0f) {
@@ -285,7 +292,10 @@ class CoverFlowPage(private val host: MainActivity) : Page("Cover Flow") {
 
     private fun drawBack(c: Canvas, bw: Float, bh: Float) {
         val a = albums[sel]
-        panel.shader = LinearGradient(0f, 0f, 0f, bh, 0xFFFFFFFF.toInt(), 0xFFE3E4E7.toInt(), Shader.TileMode.CLAMP)
+        if (panelKey != bh) {
+            panelKey = bh
+            panel.shader = LinearGradient(0f, 0f, 0f, bh, 0xFFFFFFFF.toInt(), 0xFFE3E4E7.toInt(), Shader.TileMode.CLAMP)
+        }
         val r = bh * 0.03f
         c.drawRoundRect(0f, 0f, bw, bh, r, r, panel)
 
@@ -307,7 +317,10 @@ class CoverFlowPage(private val host: MainActivity) : Page("Cover Flow") {
         if (track < trackScroll) trackScroll = track
         if (track >= trackScroll + BACK_ROWS) trackScroll = track - BACK_ROWS + 1
         val rowH = (bh - hh) / BACK_ROWS
-        hl.shader = LinearGradient(0f, 0f, 0f, rowH, 0xFF6DB3F6.toInt(), 0xFF1D6BD2.toInt(), Shader.TileMode.CLAMP)
+        if (hlKey != rowH) {
+            hlKey = rowH
+            hl.shader = LinearGradient(0f, 0f, 0f, rowH, 0xFF6DB3F6.toInt(), 0xFF1D6BD2.toInt(), Shader.TileMode.CLAMP)
+        }
         val p = screen.text
         p.textSize = rowH * 0.48f
         sp.textSize = rowH * 0.42f

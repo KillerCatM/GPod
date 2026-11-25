@@ -523,7 +523,9 @@ class MainActivity : ComponentActivity(), ClickWheelView.Listener {
 
     private val ticker = object : Runnable {
         override fun run() {
-            if (screen.pages.isNotEmpty() && screen.top is NowPlayingPage) screen.invalidate()
+            // Now Playing only needs redrawing while the position moves or an overlay is timing out.
+            val np = screen.pages.lastOrNull() as? NowPlayingPage
+            if (np != null && (controller?.isPlaying == true || np.needsTick)) screen.invalidate()
             main.postDelayed(this, 250)
         }
     }

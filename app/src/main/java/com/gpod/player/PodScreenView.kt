@@ -71,6 +71,8 @@ class PodScreenView(context: Context) : View(context) {
     private val clip = Path()
     private val bmpPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val tmpRect = Rect()
+    private val placeholder = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var placeholderKey = Float.NaN
 
     var headerH = 0f
         private set
@@ -304,9 +306,11 @@ class PodScreenView(context: Context) : View(context) {
     }
 
     fun drawPlaceholderArt(c: Canvas, dst: RectF) {
-        fill.shader = LinearGradient(0f, dst.top, 0f, dst.bottom, 0xFFE9EAEC.toInt(), 0xFFB9BBC0.toInt(), Shader.TileMode.CLAMP)
-        c.drawRect(dst, fill)
-        fill.shader = null
+        if (placeholderKey != dst.top * 31 + dst.bottom) {
+            placeholderKey = dst.top * 31 + dst.bottom
+            placeholder.shader = LinearGradient(0f, dst.top, 0f, dst.bottom, 0xFFE9EAEC.toInt(), 0xFFB9BBC0.toInt(), Shader.TileMode.CLAMP)
+        }
+        c.drawRect(dst, placeholder)
         bold.textSize = dst.height() * 0.5f
         bold.color = 0xFF8D9096.toInt()
         val note = "♪"

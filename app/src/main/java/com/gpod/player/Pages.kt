@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.LinearGradient
-import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Shader
@@ -98,6 +97,9 @@ class MenuPage(
     private var letterUntil = 0L
     private val hl = Paint(Paint.ANTI_ALIAS_FLAG)
     private val shade = Paint()
+    private var shadeKey = Float.NaN
+    private val thumb = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var thumbKey = Float.NaN
     private var hlH = -1f
     private val art = RectF()
 
@@ -232,16 +234,21 @@ class MenuPage(
             c.drawRect(textW, 0f, textW + w * 0.002f + 1f, h, f)
             val thumbH = max(h * ROWS / items.size, rowH * 0.5f)
             val ty = (h - thumbH) * scroll / (items.size - ROWS)
-            f.shader = LinearGradient(textW, 0f, listW, 0f, 0xFF7E8187.toInt(), 0xFF4F5257.toInt(), Shader.TileMode.CLAMP)
-            c.drawRect(textW + barW * 0.15f, ty + barW * 0.15f, listW - barW * 0.15f, ty + thumbH - barW * 0.15f, f)
-            f.shader = null
+            if (thumbKey != textW * 31 + listW) {
+                thumbKey = textW * 31 + listW
+                thumb.shader = LinearGradient(textW, 0f, listW, 0f, 0xFF7E8187.toInt(), 0xFF4F5257.toInt(), Shader.TileMode.CLAMP)
+            }
+            c.drawRect(textW + barW * 0.15f, ty + barW * 0.15f, listW - barW * 0.15f, ty + thumbH - barW * 0.15f, thumb)
         }
 
         if (listW < w) {
             art.set(listW, 0f, w, h)
             val bmp = artProvider?.invoke()
             if (bmp != null) screen.drawCover(c, bmp, art) else screen.drawPlaceholderArt(c, art)
-            shade.shader = LinearGradient(listW, 0f, listW + w * 0.03f, 0f, 0x55000000, 0x00000000, Shader.TileMode.CLAMP)
+            if (shadeKey != listW * 31 + w) {
+                shadeKey = listW * 31 + w
+                shade.shader = LinearGradient(listW, 0f, listW + w * 0.03f, 0f, 0x55000000, 0x00000000, Shader.TileMode.CLAMP)
+            }
             c.drawRect(listW, 0f, listW + w * 0.03f, h, shade)
         }
 
@@ -274,11 +281,14 @@ class NowPlayingPage(private val host: MainActivity) : Page("Now Playing") {
     private val repeatHit = RectF()
     private val shuffleHit = RectF()
     private val barPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val matrix = Matrix()
+    private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var barKey = Float.NaN
     private val tmp = RectF()
 
     private val scrubbing get() = SystemClock.uptimeMillis() < scrubUntil
     private val showVolume get() = SystemClock.uptimeMillis() < volumeUntil
+    /** True while an overlay is up (or just expired), so a paused screen still clears it. */
+    val needsTick get() = SystemClock.uptimeMillis() < max(scrubUntil, volumeUntil) + 300
 
     override fun onWheel(d: Int): Boolean {
         val c = host.controller ?: return false
@@ -406,12 +416,13 @@ class NowPlayingPage(private val host: MainActivity) : Page("Now Playing") {
     }
 
     private fun drawBar(c: Canvas, l: Float, t: Float, r: Float, bh: Float, frac: Float, knob: Boolean) {
-        val f = screen.fill
-        f.shader = LinearGradient(0f, t, 0f, t + bh, 0xFFF4F4F6.toInt(), 0xFFD5D7DB.toInt(), Shader.TileMode.CLAMP)
-        c.drawRect(l, t, r, t + bh, f)
-        f.shader = null
+        if (barKey != t * 31 + bh) {
+            barKey = t * 31 + bh
+            trackPaint.shader = LinearGradient(0f, t, 0f, t + bh, 0xFFF4F4F6.toInt(), 0xFFD5D7DB.toInt(), Shader.TileMode.CLAMP)
+            barPaint.shader = LinearGradient(0f, t, 0f, t + bh, 0xFF8EC4F8.toInt(), 0xFF1F6BD0.toInt(), Shader.TileMode.CLAMP)
+        }
+        c.drawRect(l, t, r, t + bh, trackPaint)
         val fx = l + (r - l) * frac.coerceIn(0f, 1f)
-        barPaint.shader = LinearGradient(0f, t, 0f, t + bh, 0xFF8EC4F8.toInt(), 0xFF1F6BD0.toInt(), Shader.TileMode.CLAMP)
         c.drawRect(l, t, fx, t + bh, barPaint)
         val s = screen.stroke
         s.color = 0xFF7C7F85.toInt()
@@ -423,6 +434,7 @@ class NowPlayingPage(private val host: MainActivity) : Page("Now Playing") {
             screen.path.reset()
             screen.path.moveTo(fx, cy - k); screen.path.lineTo(fx + k * 0.7f, cy)
             screen.path.lineTo(fx, cy + k); screen.path.lineTo(fx - k * 0.7f, cy); screen.path.close()
+            val f = screen.fill
             f.color = 0xFF2A2C30.toInt()
             c.drawPath(screen.path, f)
         }
