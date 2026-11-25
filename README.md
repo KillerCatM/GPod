@@ -1,6 +1,6 @@
 # GPod
 
-An Android music player for local MP3 and audio files, with an interface modeled on the iPod classic.
+A Local MP3 player for Android inspired by the iPod Classic UI.
 
 [screenshot: main menu] [screenshot: Cover Flow] [screenshot: Now Playing] [screenshot: Settings / themes]
 
@@ -9,18 +9,19 @@ An Android music player for local MP3 and audio files, with an interface modeled
 ## Features
 
 ### Click wheel
-- Touch click wheel with haptic feedback that fires only when the highlight actually moves, not at the ends of lists
+- Touch click wheel with haptic
 - Optional clicker sound and adjustable wheel speed
 - Center button is Select; hold it to open song options
 - Wheel buttons: **MENU**, **⏮**, **⏭**, **⏯**
-  - Hold MENU to return to the main menu
-  - Hold ⏮ / ⏭ to seek
+  - Tap MENU to return to the main menu
+  - Tap ⏮ / ⏭ to seek
+  - Tap ⏯ to play/pause
 
 ### Main menu
 - Music, Settings, Shuffle Songs, Sleep, Now Playing, Exit
-- **Sleep** goes to the home screen and keeps the music playing
+- **Sleep** backs out and keeps the music playing in the background
 - **Exit** stops playback and closes the app
-- Any browse list can be pinned to the main menu
+- Any browsing list in "Music" can be pinned to the main menu
 
 ### Browsing
 - Cover Flow, Playlists, Artists, Albums, Songs, Genres, Folders
@@ -28,8 +29,7 @@ An Android music player for local MP3 and audio files, with an interface modeled
 - **Cover Flow:** 3D album covers with reflections; press the center button to flip a cover and see its tracks
 
 ### Playlists
-- Create, rename (with the keyboard), delete, and add or remove songs
-- Playlists already on the phone are listed too and can be copied into editable ones
+- Create, rename, delete, and add or remove songs
 - Optional "Recently Added" smart playlist
 
 ### Now Playing
@@ -38,22 +38,16 @@ An Android music player for local MP3 and audio files, with an interface modeled
 - Tap the shuffle and repeat icons to toggle them (repeat cycles Off → All → One)
 
 ### Interface
-- Header shows play state and a battery icon that turns green, yellow or red by charge level, with a lightning bolt while charging
-- Themes: Silver, Space Gray, and a pure-black option for AMOLED screens
-- Rounded or square screen corners
+- Header shows play state and a battery icon
+- Themes: Silver, Space Gray, and Black
+- Option of rounded or square screen corners
 - Option to hide the navigation bar
-- Choose which music folders to include or exclude
+- Choose which music folders to include
 
 ### Playback
 - Runs in the background with a media notification and lock-screen controls
 - Pauses when headphones are unplugged
-- Queue and position are restored when you reopen the app
-- Swiping the app away in Recents fully stops it
-
-### Privacy
-- No play tracking
-- No internet permission
-- No ads, no accounts
+- Queue and position are restored when you reopen the app and select Now Playing
 
 ## Install
 
