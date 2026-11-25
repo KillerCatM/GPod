@@ -2,7 +2,13 @@
 
 A Local MP3 player for Android inspired by the iPod Classic UI.
 
-[screenshot: main menu] [screenshot: Cover Flow] [screenshot: Now Playing] [screenshot: Settings / themes]
+<p align="center">
+  <img src="docs/screenshots/main-menu-space-gray.jpg" width="180" alt="Main menu, Space Gray theme">
+  <img src="docs/screenshots/main-menu-silver.jpg" width="180" alt="Main menu, Silver theme">
+  <img src="docs/screenshots/main-menu-black.jpg" width="180" alt="Main menu, black theme">
+  <img src="docs/screenshots/cover-flow.jpg" width="180" alt="Cover Flow">
+  <img src="docs/screenshots/now-playing.jpg" width="180" alt="Now Playing">
+</p>
 
 > GPod is a personal hobby project. It has been tested on a Galaxy S23 and a Galaxy S10.
 
