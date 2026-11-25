@@ -16,7 +16,7 @@ A Local MP3 player for Android inspired by the iPod Classic UI.
 ## Features
 
 ### Click wheel
-- Touch click wheel with haptic
+- Touch click wheel with haptic feedback
 - Optional clicker sound and adjustable wheel speed
 - Center button is Select; hold it to open song options
 - Wheel buttons: **MENU**, **⏮**, **⏭**, **⏯**
