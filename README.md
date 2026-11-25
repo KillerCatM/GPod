@@ -6,6 +6,7 @@ A Local MP3 player for Android inspired by the iPod Classic UI.
   <img src="screenshots/main-menu-space-gray.jpg" width="180" alt="Space Gray Menu">
   <img src="screenshots/main-menu-silver.jpg" width="180" alt="Silver Menu">
   <img src="screenshots/main-menu-black.jpg" width="180" alt="Black Menu">
+  <br>
   <img src="screenshots/cover-flow.jpg" width="180" alt="Cover Flow">
   <img src="screenshots/now-playing.jpg" width="180" alt="Now Playing">
 </p>
